@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cloud Book Shelf & Generator</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #eef2f3; text-align: center; padding: 40px; }
+        .card { background: white; max-width: 550px; margin: auto; padding: 30px; border-radius: 12px; box-shadow: 0 6px 15px rgba(0,0,0,0.1); }
+        input[type="text"], input[type="file"] { width: 85%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
+        button { background: #007bff; color: white; border: none; padding: 12px 24px; font-size: 16px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        button:hover { background: #0056b3; }
+        .success { color: #28a745; margin-top: 20px; background: #e8f5e9; padding: 15px; border-radius: 6px; }
+        a { color: #007bff; text-decoration: none; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>📚 Cloud Book Shelf & Summary Generator</h2>
+        <p>Register a book, generate its PDF summary card, and archive it to AWS S3!</p>
+        
+        <form action="/" method="POST" enctype="multipart/form-data">
+            <input type="text" name="title" placeholder="Book Title (e.g., Cloud Computing Essentials)" required><br>
+            <input type="text" name="author" placeholder="Author Name" required><br>
+            <input type="file" name="cover" accept="image/*" required><br><br>
+            <button type="submit">Generate PDF & Upload to Cloud</button>
+        </form>
+
+        {% if pdf_filename %}
+            <div class="success">
+                <h3>Success! Book Archived!</h3>
+                <p>Book: <b>{{ title }}</b> by {{ author }}</p>
+                <p><a href="{{ url_for('download_pdf', filename=pdf_filename) }}" target="_blank">📥 Download Generated Book PDF</a></p>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
